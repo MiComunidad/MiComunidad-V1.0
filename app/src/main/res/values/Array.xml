@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="opciones">
+        <item></item>
+        <item>Medellín</item>
+        <item>Bogotá</item>
+        <item>Manizales</item>
+        <item>Pereira</item>
+
+    </string-array>
+
+
+</resources>

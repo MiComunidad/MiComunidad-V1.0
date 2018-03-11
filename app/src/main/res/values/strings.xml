@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MiComunidad</string>
+    <string name="Aceptar">Aceptar</string>
+    <string name="MiPerfil">Mi Perfil</string>
+    <string name="CerrarS">Cerrar Sesion</string>
+    <string name="Principal">Principal</string>
+    <string name="Registrar">Registrar</string>
+    <string name="Usuario">Usuario:</string>
+    <string name="Contraseña">Contraseña:</string>
+    <string name="Rcontraseña">Repetir Contraseña:</string>
+    <string name="Correo">Correo:</string>
+    <string name="masculino">Masculino</string>
+    <string name="femenino">Femenino</string>
+    <string name="Sexo">Sexo:</string>
+    <string name="nacimiento">Lugar de Nacimiento:</string>
+    <string name="fecha">Fecha de Nacimiento:</string>
+
+</resources>
