@@ -18,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView tRegistrar;
     String usuario="",contraseña="",usuarioR,contraseñaR,correo,sexo,lugar,fecha;
 
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
