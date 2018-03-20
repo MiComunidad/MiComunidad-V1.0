@@ -10,7 +10,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class PerfilActivity extends AppCompatActivity {
-    TextView tNombre,tCorreo,tLugar,tFecha,tSexo;
+    TextView tNombre,tCorreo,tLugar,tFecha,tSexo,tContraseña;
+    String usuario,contraseña,correo,sexo,lugar,fecha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,28 +19,28 @@ public class PerfilActivity extends AppCompatActivity {
         setContentView(R.layout.activity_perfil);
 
         tNombre=findViewById(R.id.tNombre);
+        tContraseña = findViewById(R.id.tContraseña);
         tCorreo=findViewById(R.id.tCorreo);
         tLugar=findViewById(R.id.tLugar);
         tFecha=findViewById(R.id.tFecha);
         tSexo=findViewById(R.id.tSexo);
 
-        cargarDatos();
-    }
-    //Funcion para cargar los datos almacenados en DatosUsuarios
-    private void cargarDatos() {
-         SharedPreferences datos= getSharedPreferences("DatosUsuarios", Context.MODE_PRIVATE);
+        Bundle extras= getIntent().getExtras();
+        if(extras != null) {
+            usuario =extras.getString("usuario");
+            contraseña = extras.getString("contraseña");
+            correo=extras.getString("correo");
+            sexo = extras.getString("sexo");
+            lugar= extras.getString("lugar");
+            fecha= extras.getString("fecha");
+        }
 
-         String usuario= datos.getString("usuario","No hay datos");
-         String correo= datos.getString("correo","No hay datos");
-         String lugar= datos.getString("lugar","No hay datos");
-         String fecha= datos.getString("fecha","No hay datos");
-         String sexo= datos.getString("sexo","No hay datos");
-
-         tNombre.setText(usuario);
-         tCorreo.setText(correo);
-         tLugar.setText(lugar);
-         tFecha.setText(fecha);
-         tSexo.setText(sexo);
+        tNombre.setText(usuario);
+        tContraseña.setText(contraseña);
+        tCorreo.setText(correo);
+        tSexo.setText(sexo);
+        tLugar.setText(lugar);
+        tFecha.setText(fecha);
     }
 
     //ASIGNA EL MENU PREVIAMENTE CREADO
@@ -55,12 +56,25 @@ public class PerfilActivity extends AppCompatActivity {
         switch (id){
             case R.id.mPrincipal:
                 Intent intent = new Intent(PerfilActivity.this, MainActivity.class);
+                intent.putExtra("usuario",usuario);
+                intent.putExtra("contraseña",contraseña);
+                intent.putExtra("correo",correo);
+                intent.putExtra("sexo",sexo);
+                intent.putExtra("lugar",lugar);
+                intent.putExtra("fecha",fecha);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.mCerrarS:
                 Intent intent2 = new Intent(PerfilActivity.this, LoginActivity.class);
+                intent2.putExtra("usuario",usuario);
+                intent2.putExtra("contraseña",contraseña);
+                intent2.putExtra("correo",correo);
+                intent2.putExtra("sexo",sexo);
+                intent2.putExtra("lugar",lugar);
+                intent2.putExtra("fecha",fecha);
                 intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 startActivity(intent2);
                 break;
 

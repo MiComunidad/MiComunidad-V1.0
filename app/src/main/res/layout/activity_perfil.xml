@@ -20,6 +20,12 @@
         android:textSize="20dp"
         />
     <TextView
+        android:id="@+id/tContraseña"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        />
+    <TextView
         android:id="@+id/tCorreo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText eUsuario,eContraseña;
     Button bAceptar;
     TextView tRegistrar;
-    String usuario,contraseña,usuarioR,contraseñaR;
+    String usuario="",contraseña="",usuarioR,contraseñaR,correo,sexo,lugar,fecha;
 
 
     @Override
@@ -28,6 +28,18 @@ public class LoginActivity extends AppCompatActivity {
         eContraseña= findViewById(R.id.eContraseña);
         bAceptar = findViewById(R.id.bAceptar);
         tRegistrar = findViewById(R.id.tRegistrar);
+
+        Bundle extras= getIntent().getExtras();
+        if(extras != null){
+            usuario = extras.getString("usuario");
+            contraseña = extras.getString("contraseña");
+            correo = extras.getString("correo");
+            sexo = extras.getString("sexo");
+            lugar = extras.getString("lugar");
+            fecha = extras.getString("fecha");
+        }
+
+
     }
     //Función para llamar a la actividad de registro
     public void onClickedTextWiew(View view) {
@@ -38,26 +50,26 @@ public class LoginActivity extends AppCompatActivity {
     }
     //Funcion que compara los DatosUsuario con los escritos en los edittext
     public void onButtonClicked(View view) {
-        usuario=eUsuario.getText().toString();
-        contraseña=eContraseña.getText().toString();
 
-        cargarDatos();
-         if(usuario.equals(usuarioR) && contraseña.equals(contraseñaR)) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }else{
-            Toast.makeText(this,"Usuario o contraseña incorrecta",Toast.LENGTH_SHORT).show();
-        }
-    }
-    //funcion que permite cargar los datos almacenados en DatosUsuarios
-    private void cargarDatos() {
-        SharedPreferences datos= getSharedPreferences("DatosUsuarios", Context.MODE_PRIVATE);
+            usuarioR = eUsuario.getText().toString();
+            contraseñaR = eContraseña.getText().toString();
 
-        String usuario= datos.getString("usuario","No hay datos");
-        String contraseña= datos.getString("contraseña","No hay datos");
 
-        usuarioR=usuario;
-        contraseñaR=contraseña;
+            if (usuario.equals(usuarioR) && contraseña.equals(contraseñaR)) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("usuario", usuario);
+                intent.putExtra("contraseña", contraseña);
+                intent.putExtra("correo", correo);
+                intent.putExtra("sexo", sexo);
+                intent.putExtra("lugar", lugar);
+                intent.putExtra("fecha", fecha);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "Usuario o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+            }
+
     }
 
     @Override
@@ -65,8 +77,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode==1234 && resultCode==RESULT_OK){
-           // usuarioR = data.getExtras().getString("usuario");
-           // contraseñaR = data.getExtras().getString("contraseña");
+            usuario = data.getExtras().getString("usuario");
+            contraseña = data.getExtras().getString("contraseña");
+            correo = data.getExtras().getString("correo");
+            sexo =data.getExtras().getString("sexo");
+            lugar = data.getExtras().getString("lugar");
+            fecha = data.getExtras().getString("fecha");
         }else{
             if(requestCode==1234 && resultCode==RESULT_CANCELED){
                 Toast.makeText(this,"Cancelado",Toast.LENGTH_SHORT).show();

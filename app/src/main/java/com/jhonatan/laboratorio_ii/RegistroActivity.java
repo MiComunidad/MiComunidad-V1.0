@@ -95,7 +95,7 @@ public class RegistroActivity extends AppCompatActivity {
         }else if(!(contraseña.equals(rcontraseña))){
             Toast.makeText(this, "Contraseñas diferentes", Toast.LENGTH_LONG).show();
         }else{
-            GuardarDatos();
+
             Intent intent=new Intent();
             intent.putExtra("usuario",eUsur.getText().toString());
             intent.putExtra("correo",eCorreo.getText().toString());
@@ -108,27 +108,7 @@ public class RegistroActivity extends AppCompatActivity {
         }
 
     }
-    //Funcion que guarda los datos escritos en los edittext en un archivo llamado DatosUsuarios
-    private void GuardarDatos() {
-        SharedPreferences datos= getSharedPreferences("DatosUsuarios", Context.MODE_PRIVATE);
 
-        String usuario=eUsur.getText().toString();
-        String contraseña=eContra.getText().toString();
-        String correo=eCorreo.getText().toString();
-        String lugar=sLugar.getSelectedItem().toString();
-        String fecha=eFecha.getText().toString();
-
-        SharedPreferences.Editor editor=datos.edit();
-        editor.putString("usuario",usuario);
-        editor.putString("contraseña",contraseña);
-        editor.putString("correo",correo);
-        editor.putString("lugar",lugar);
-        editor.putString("fecha",fecha);
-        editor.putString("sexo",sexo);
-
-        editor.commit();
-
-    }
 
     @Override
     public void onBackPressed() {
