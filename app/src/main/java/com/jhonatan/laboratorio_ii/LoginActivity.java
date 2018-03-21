@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText eUsuario,eContraseña;
     Button bAceptar;
     TextView tRegistrar;
-    String usuario="",contraseña="",usuarioR,contraseñaR,correo,sexo,lugar,fecha;
+    String usuario,contraseña,usuarioR,contraseñaR,correo,sexo,lugar,fecha;
 
 //
     @Override
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             contraseñaR = eContraseña.getText().toString();
 
 
-            if (usuario.equals(usuarioR) && contraseña.equals(contraseñaR)) {
+            if (usuario != null  && contraseña != null && usuario.equals(usuarioR) && contraseña.equals(contraseñaR)) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("usuario", usuario);
                 intent.putExtra("contraseña", contraseña);
@@ -63,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("sexo", sexo);
                 intent.putExtra("lugar", lugar);
                 intent.putExtra("fecha", fecha);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
             } else {

@@ -74,7 +74,6 @@ public class PerfilActivity extends AppCompatActivity {
                 intent2.putExtra("lugar",lugar);
                 intent2.putExtra("fecha",fecha);
                 intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
                 startActivity(intent2);
                 break;
 

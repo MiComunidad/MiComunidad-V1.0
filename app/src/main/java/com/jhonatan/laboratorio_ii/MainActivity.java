@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("sexo",sexo);
                 intent.putExtra("lugar",lugar);
                 intent.putExtra("fecha",fecha);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.mCerrarSe:

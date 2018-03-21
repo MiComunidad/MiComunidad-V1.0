@@ -4,31 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/burlywood"
     tools:context="com.jhonatan.laboratorio_ii.LoginActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:src="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        />
 
     <EditText
         android:id="@+id/eUsuario"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/Usuario"
+        android:inputType="text"/>
+
     <EditText
         android:id="@+id/eContraseña"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/Contraseña"
         android:inputType="textPassword"/>
     <Button
         android:id="@+id/bAceptar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textSize="20sp"
         android:text="@string/Aceptar"
+        android:background="@color/darkgoldenrod"
         android:onClick="onButtonClicked"/>
     <TextView
         android:id="@+id/tRegistrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="@string/Registrar"
         android:textSize="20sp"
         android:textColor="@color/blue"
+        android:gravity="center_horizontal"
         android:onClick="onClickedTextWiew"/>
 
 </LinearLayout>
