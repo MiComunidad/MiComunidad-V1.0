@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
             lugar = extras.getString("lugar");
             fecha = extras.getString("fecha");
         }
-        usuario = getIntent().getStringExtra("usuario");
     }
 
     //ASIGNA EL MENU PREVIAMENTE CREADO
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("sexo",sexo);
                 intent.putExtra("lugar",lugar);
                 intent.putExtra("fecha",fecha);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.mCerrarSe:
@@ -56,11 +54,15 @@ public class MainActivity extends AppCompatActivity {
                 intent2.putExtra("sexo",sexo);
                 intent2.putExtra("lugar",lugar);
                 intent2.putExtra("fecha",fecha);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent2);
                 break;
 
         }
         return super.onOptionsItemSelected(item);
     }
+    //impide que regrese a Login
+    @Override
+    public void onBackPressed() { moveTaskToBack(true); super.onBackPressed(); }
+
 }

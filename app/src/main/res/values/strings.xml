@@ -14,5 +14,8 @@
     <string name="Sexo">Sexo:</string>
     <string name="nacimiento">Lugar de Nacimiento:</string>
     <string name="fecha">Fecha de Nacimiento:</string>
+    <string name="turismo">Turismo</string>
+    <string name="hoteleria">Hoteleria</string>
+    <string name="bares">Bares</string>
 
 </resources>
