@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,9 +17,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Calendar;
 
 public class RegistroActivity extends AppCompatActivity {
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener  authStateListener;
+
     EditText eUsur,eContra,eRcontra,eCorreo,eFecha;
     Spinner sLugar;
     Button bRegistrar;
@@ -44,6 +56,7 @@ public class RegistroActivity extends AppCompatActivity {
         eFecha = findViewById(R.id.eFecha);
         bRegistrar = findViewById(R.id.bRegistrar);
 
+        inicializar();
 
         selectorfecha = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -92,21 +105,46 @@ public class RegistroActivity extends AppCompatActivity {
         if (usuario.equals("") || contraseña.equals("")|| rcontraseña.equals("")|| correo.equals("")|| fecha.equals("")|| sexo.equals("")|| lugar.equals("")) {
             Toast.makeText(this, "Debe llenar todos los datos", Toast.LENGTH_LONG).show();
 
-        }else if(!(contraseña.equals(rcontraseña))){
+        }else if(!(contraseña.equals(rcontraseña))) {
             Toast.makeText(this, "Contraseñas diferentes", Toast.LENGTH_LONG).show();
+        }else  if(contraseña.length()<= 6){
+                    Toast.makeText ( this, "Contraseña debe tener mas de 6 caracteres", Toast.LENGTH_SHORT).show();
         }else{
-
-            Intent intent=new Intent();
-            intent.putExtra("usuario",eUsur.getText().toString());
-            intent.putExtra("correo",eCorreo.getText().toString());
-            intent.putExtra("contraseña",eContra.getText().toString());
-            intent.putExtra("sexo",sexo);
-            intent.putExtra("fecha",eFecha.getText().toString());
-            intent.putExtra("lugar",sLugar.getSelectedItem().toString());
-            setResult(RESULT_OK,intent);
+            crearCuentaFirebase();
+            Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
+            startActivity(intent);
             finish();
         }
+    }
 
+    private void crearCuentaFirebase() {
+        firebaseAuth.createUserWithEmailAndPassword(correo,contraseña).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(RegistroActivity.this, "Cuenta creada", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RegistroActivity.this, "Error al crear cuenta", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void inicializar(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser != null){
+                    Log.d("Usuario logeado: ",firebaseUser.getEmail());
+                }else{
+                    Log.d("Usuario logeado: ", "No hay");
+
+                }
+
+            }
+        };
     }
 
 

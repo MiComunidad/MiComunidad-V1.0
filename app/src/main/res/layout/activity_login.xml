@@ -16,12 +16,12 @@
         />
 
     <EditText
-        android:id="@+id/eUsuario"
+        android:id="@+id/eCorreo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="@string/Usuario"
-        android:inputType="text"/>
+        android:hint="@string/Correo"
+        android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/eContraseña"
@@ -31,7 +31,6 @@
         android:hint="@string/Contraseña"
         android:inputType="textPassword"/>
     <Button
-        android:id="@+id/bAceptar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -40,7 +39,6 @@
         android:background="@color/darkgoldenrod"
         android:onClick="onButtonClicked"/>
     <TextView
-        android:id="@+id/tRegistrar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -49,5 +47,18 @@
         android:textColor="@color/blue"
         android:gravity="center_horizontal"
         android:onClick="onClickedTextWiew"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSignInGoogle"
+        android:layout_gravity="center_horizontal"/>
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btnSignInFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>

@@ -17,5 +17,7 @@
     <string name="turismo">Turismo</string>
     <string name="hoteleria">Hoteleria</string>
     <string name="bares">Bares</string>
+    <string name="facebook_app_id">163177660997326</string>
+    <string name="fb_login_protocol_scheme">fb163177660997326</string>
 
 </resources>
