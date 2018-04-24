@@ -95,23 +95,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-
-        // Add code to print out the key hash
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.jhonatan.laboratorio_ii",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-
     }
 //metodo de logeo con Facebook
     private void signInFacebook(AccessToken accessToken) {
@@ -123,8 +106,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                            startActivity(i);
+                          goMainActivity();
                         }else{
                             Toast.makeText(LoginActivity.this, "Autenticacion con Facebook no exitosa",
                                     Toast.LENGTH_SHORT).show();
@@ -155,8 +137,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                               Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                               startActivity(i);
+                               goMainActivity();
                             }
                         }
                     });
@@ -188,6 +169,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
     }
+    //Funcion para ir al Main
+    private void goMainActivity() {
+        //crearCuenta();
+        Intent i= new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(i);
+        finish();
+    }
     //Función para llamar a la actividad de registro
     public void onClickedTextWiew(View view) {
 
@@ -206,8 +194,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                   goMainActivity();
                 }else{
                     Toast.makeText(LoginActivity.this, "Correo o contraseñas diferentes", Toast.LENGTH_SHORT).show();
                 }

@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.jhonatan.laboratorio_ii.Modelo.Usuarios;
 
 import java.util.Calendar;
 
@@ -29,10 +33,9 @@ public class RegistroActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener  authStateListener;
-
-    EditText eUsur,eContra,eRcontra,eCorreo,eFecha;
-    Spinner sLugar;
-    Button bRegistrar;
+    private DatabaseReference databaseReference;
+    private EditText eUsur,eContra,eRcontra,eCorreo,eFecha;
+    private Spinner sLugar;
     int año,mes,dia;
     static final int DIALOGO=0;
     static DatePickerDialog.OnDateSetListener selectorfecha;
@@ -42,6 +45,9 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        databaseReference= FirebaseDatabase.getInstance().getReference();
 
         Calendar fechaActual = Calendar.getInstance();
         año = fechaActual.get(Calendar.YEAR);
@@ -54,7 +60,6 @@ public class RegistroActivity extends AppCompatActivity {
         eCorreo= findViewById(R.id.eCorreo);
         sLugar = findViewById(R.id.sLugar);
         eFecha = findViewById(R.id.eFecha);
-        bRegistrar = findViewById(R.id.bRegistrar);
 
         inicializar();
 
@@ -95,26 +100,60 @@ public class RegistroActivity extends AppCompatActivity {
     }
 
     public void onButtonClicked(View view) {
-        usuario= eUsur.getText().toString();
-        contraseña= eContra.getText().toString();
-        rcontraseña= eRcontra.getText().toString();
-        correo= eCorreo.getText().toString();
-        fecha= eFecha.getText().toString();
-        lugar =sLugar.getSelectedItem().toString();
+        usuario = eUsur.getText().toString();
+        contraseña = eContra.getText().toString();
+        rcontraseña = eRcontra.getText().toString();
+        correo = eCorreo.getText().toString();
+        fecha = eFecha.getText().toString();
+        lugar = sLugar.getSelectedItem().toString();
 
         if (usuario.equals("") || contraseña.equals("")|| rcontraseña.equals("")|| correo.equals("")|| fecha.equals("")|| sexo.equals("")|| lugar.equals("")) {
             Toast.makeText(this, "Debe llenar todos los datos", Toast.LENGTH_LONG).show();
-
+        } else if(EspacioBlanco(eUsur) == true ||EspacioBlanco(eContra) == true ||EspacioBlanco(eRcontra) == true||EspacioBlanco(eCorreo) == true){
+            Toast.makeText(this, "No se permiten espacios en blanco", Toast.LENGTH_LONG).show();
         }else if(!(contraseña.equals(rcontraseña))) {
-            Toast.makeText(this, "Contraseñas diferentes", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Contraseñas diferentes", Toast.LENGTH_SHORT).show();
+        }else if(!correo.contains("@")) {
+            Toast.makeText(this, "Correo invalido", Toast.LENGTH_SHORT).show();
         }else  if(contraseña.length()<= 6){
                     Toast.makeText ( this, "Contraseña debe tener mas de 6 caracteres", Toast.LENGTH_SHORT).show();
         }else{
+
+            FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+             /*  usuarios usuarios = new usuarios(firebaseUser.getUid(),
+                firebaseUser.getDisplayName(),
+                firebaseUser.getPhoneNumber(),
+                0);*/
+            Usuarios usuarios = new Usuarios(databaseReference.push().getKey(),
+                eUsur.getText().toString(),
+                eCorreo.getText().toString(),
+                sLugar.getSelectedItem().toString());
+
+            databaseReference.child("usuarios").child(usuarios.getId()).setValue(usuarios);
+
             crearCuentaFirebase();
             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
+    }
+
+    private boolean EspacioBlanco(EditText dato) {
+        boolean bool = false;
+
+        for (int i =0 ; i< dato.getText().toString().length(); i ++) {
+            char blanco = dato.getText().toString().charAt(i) ;
+            if(blanco == ' '){
+                bool= true;
+                break;
+            }else{
+                bool =  false;
+            }
+        }
+
+        return bool;
     }
 
     private void crearCuentaFirebase() {

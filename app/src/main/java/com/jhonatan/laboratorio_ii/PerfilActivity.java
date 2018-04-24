@@ -3,15 +3,25 @@ package com.jhonatan.laboratorio_ii;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class PerfilActivity extends AppCompatActivity {
     TextView tNombre,tCorreo,tLugar,tFecha,tSexo,tContraseña;
-    String usuario,contraseña,correo,sexo,lugar,fecha;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener  authStateListener;
+    private GoogleApiClient googleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +35,35 @@ public class PerfilActivity extends AppCompatActivity {
         tFecha=findViewById(R.id.tFecha);
         tSexo=findViewById(R.id.tSexo);
 
-        Bundle extras= getIntent().getExtras();
-        if(extras != null) {
-            usuario =extras.getString("usuario");
-            contraseña = extras.getString("contraseña");
-            correo=extras.getString("correo");
-            sexo = extras.getString("sexo");
-            lugar= extras.getString("lugar");
-            fecha= extras.getString("fecha");
-        }
+        inicializar();
 
-        tNombre.setText(usuario);
-        tContraseña.setText(contraseña);
-        tCorreo.setText(correo);
-        tSexo.setText(sexo);
-        tLugar.setText(lugar);
-        tFecha.setText(fecha);
     }
+    private void inicializar() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser != null){
+                    Log.d("Usuario logeado: ",firebaseUser.getEmail());
+                }else{
+                    Log.d("Usuario logeado: ", "No hay");
+                }
+            }
+        };
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.
+                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                requestIdToken(getString(R.string.default_web_client_id)).
+                requestEmail().
+                build();
+
+        googleApiClient= new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, (GoogleApiClient.OnConnectionFailedListener) this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+    }
     //ASIGNA EL MENU PREVIAMENTE CREADO
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,29 +77,22 @@ public class PerfilActivity extends AppCompatActivity {
         switch (id){
             case R.id.mPrincipal:
                 Intent intent = new Intent(PerfilActivity.this, MainActivity.class);
-                intent.putExtra("usuario",usuario);
-                intent.putExtra("contraseña",contraseña);
-                intent.putExtra("correo",correo);
-                intent.putExtra("sexo",sexo);
-                intent.putExtra("lugar",lugar);
-                intent.putExtra("fecha",fecha);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.mCerrarS:
-                Intent intent2 = new Intent(PerfilActivity.this, LoginActivity.class);
-                intent2.putExtra("usuario",usuario);
-                intent2.putExtra("contraseña",contraseña);
-                intent2.putExtra("correo",correo);
-                intent2.putExtra("sexo",sexo);
-                intent2.putExtra("lugar",lugar);
-                intent2.putExtra("fecha",fecha);
-                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent2);
+               cerrarSesion();
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void cerrarSesion() {
+        firebaseAuth.signOut();
+        Intent intent2 = new Intent(PerfilActivity.this, LoginActivity.class);
+        startActivity(intent2);
+        finish();
     }
 }
 

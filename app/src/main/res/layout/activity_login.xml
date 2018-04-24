@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/burlywood"
+    android:background="@drawable/fondo"
     tools:context="com.jhonatan.laboratorio_ii.LoginActivity">
 
-    <ImageView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:src="@drawable/logo"
+        android:layout_weight="1"
         android:layout_gravity="center_horizontal"
         />
 
@@ -19,24 +18,37 @@
         android:id="@+id/eCorreo"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:hint="@string/Correo"
+        android:background="@color/white"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="20dp"
         android:inputType="textEmailAddress"/>
 
     <EditText
         android:id="@+id/eContraseña"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:hint="@string/Contraseña"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:inputType="textPassword"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:textSize="20sp"
-        android:text="@string/Aceptar"
-        android:background="@color/darkgoldenrod"
+        android:text="@string/IniciarS"
+        android:background="@color/darkviolet"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/white"
         android:onClick="onButtonClicked"/>
     <TextView
         android:layout_width="match_parent"
@@ -47,18 +59,26 @@
         android:textColor="@color/blue"
         android:gravity="center_horizontal"
         android:onClick="onClickedTextWiew"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
     <com.google.android.gms.common.SignInButton
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/btnSignInGoogle"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnSignInFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_margin="20dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         />
-
+    </LinearLayout>
 </LinearLayout>

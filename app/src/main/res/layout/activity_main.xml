@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/burlywood"
+    android:background="@drawable/fondo"
     tools:context="com.jhonatan.laboratorio_ii.MainActivity">
 
     <LinearLayout
@@ -17,34 +17,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:padding="5dp"
             android:src="@drawable/turismo"
+
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/turismo"
-            android:textSize="20sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/hotel"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/hoteleria"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:gravity="center"/>
 
     </LinearLayout>
@@ -58,16 +42,43 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/bares"
+            android:padding="5dp"
             android:layout_gravity="center"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/bares"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:gravity="center"/>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/hotel"
+            android:padding="5dp"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/hoteleria"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
 
 
 </LinearLayout>
