@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import com.jhonatan.laboratorio_ii.Modelo.Usuarios;
 
 import java.util.Calendar;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class RegistroActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
@@ -39,14 +42,15 @@ public class RegistroActivity extends AppCompatActivity {
     int año,mes,dia;
     static final int DIALOGO=0;
     static DatePickerDialog.OnDateSetListener selectorfecha;
+    private String foto="";
 
-    String usuario,contraseña,rcontraseña,correo,sexo,fecha,lugar;
+    private String usuario,contraseña,rcontraseña,correo,sexo,fecha,lugar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase.getInstance();
         databaseReference= FirebaseDatabase.getInstance().getReference();
 
         Calendar fechaActual = Calendar.getInstance();
@@ -119,20 +123,6 @@ public class RegistroActivity extends AppCompatActivity {
                     Toast.makeText ( this, "Contraseña debe tener mas de 6 caracteres", Toast.LENGTH_SHORT).show();
         }else{
 
-            FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-             /*  usuarios usuarios = new usuarios(firebaseUser.getUid(),
-                firebaseUser.getDisplayName(),
-                firebaseUser.getPhoneNumber(),
-                0);*/
-            Usuarios usuarios = new Usuarios(databaseReference.push().getKey(),
-                eUsur.getText().toString(),
-                eCorreo.getText().toString(),
-                sLugar.getSelectedItem().toString());
-
-            databaseReference.child("usuarios").child(usuarios.getId()).setValue(usuarios);
-
             crearCuentaFirebase();
             Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -162,6 +152,7 @@ public class RegistroActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(RegistroActivity.this, "Cuenta creada", Toast.LENGTH_SHORT).show();
+
                 }else{
                     Toast.makeText(RegistroActivity.this, "Error al crear cuenta", Toast.LENGTH_SHORT).show();
                 }

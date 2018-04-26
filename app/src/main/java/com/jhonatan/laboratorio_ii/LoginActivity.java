@@ -38,6 +38,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.jhonatan.laboratorio_ii.Modelo.Usuarios;
+import com.squareup.picasso.Picasso;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -47,7 +54,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseAuth.AuthStateListener  authStateListener;
     private GoogleApiClient googleApiClient;
     private CallbackManager callbackManager;
-
+    private DatabaseReference databaseReference;
     private EditText eCorreo,eContraseña;
     private SignInButton btnSignInGoogle;
     private LoginButton btnSignInFaceboook;
@@ -59,6 +66,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
+
+        FirebaseDatabase.getInstance();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
 
         eCorreo= findViewById(R.id.eCorreo);
         eContraseña= findViewById(R.id.eContraseña);
@@ -106,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                          goMainActivity();
+                                                      goMainActivity();
                         }else{
                             Toast.makeText(LoginActivity.this, "Autenticacion con Facebook no exitosa",
                                     Toast.LENGTH_SHORT).show();
@@ -137,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                               goMainActivity();
+                                                               goMainActivity();
                             }
                         }
                     });
@@ -171,11 +181,44 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
     //Funcion para ir al Main
     private void goMainActivity() {
-        //crearCuenta();
+        CrearCuenta();
         Intent i= new Intent(LoginActivity.this,MainActivity.class);
         startActivity(i);
         finish();
     }
+
+    private void CrearCuenta() {
+        FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+        FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child("Usuarios").child(firebaseUser.getUid()).
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            Log.d("usuario", "Ok");
+                        }
+                        else{
+                            Log.d("usuario", "No");
+                            Usuarios usuarios = new Usuarios(firebaseUser.getUid(),
+                                    firebaseUser.getDisplayName(),
+                                    firebaseUser.getEmail()
+                            );
+                            databaseReference.child("Usuarios").child(usuarios.getId()).setValue(usuarios);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
     //Función para llamar a la actividad de registro
     public void onClickedTextWiew(View view) {
 

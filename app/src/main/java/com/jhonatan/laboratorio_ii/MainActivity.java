@@ -1,12 +1,23 @@
 package com.jhonatan.laboratorio_ii;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
@@ -18,30 +29,44 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.jhonatan.laboratorio_ii.Modelo.Usuarios;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener  authStateListener;
     private GoogleApiClient googleApiClient;
     private CallbackManager callbackManager;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FirebaseDatabase.getInstance();
+        databaseReference= FirebaseDatabase.getInstance().getReference();
         ComprobarLogin();
 
 
-           }
+    }
 
     private void ComprobarLogin() {
         // comprobar cuentas logeadas
         if(FirebaseAuth.getInstance().getCurrentUser() == null
                               ) {
 
-            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            Intent i = new Intent(MainActivity.this, SplashActivity.class);
             startActivity(i);
+            finish();
         }else {
             inicializar();
         }
@@ -74,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         .build();
 
     }
+
+
 
     //ASIGNA EL MENU PREVIAMENTE CREADO
     @Override
@@ -118,12 +145,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    //impide que regrese a Login
-    @Override
-    public void onBackPressed() { moveTaskToBack(true); super.onBackPressed(); }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void ClickedText(View view) {
+        Intent intent = new Intent(MainActivity.this, ServiciosActivity.class);
+        startActivity(intent);
     }
 }

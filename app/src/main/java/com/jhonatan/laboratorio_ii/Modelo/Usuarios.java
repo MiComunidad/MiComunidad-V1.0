@@ -5,17 +5,24 @@ package com.jhonatan.laboratorio_ii.Modelo;
  */
 
 public class Usuarios {
-    private String id, nombre, correo, lugar;
+    private String id, nombre, correo, foto;
 
-    public Usuarios(String id, String nombre, String correo, String lugar) {
+    public Usuarios(String id, String nombre, String correo, String foto) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
-        this.lugar = lugar;
+        this.foto = foto;
+    }
+
+    public Usuarios(String id, String nombre, String correo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.correo = correo;
     }
 
     public String getId() {
         return id;
+
     }
 
     public void setId(String id) {
@@ -38,12 +45,12 @@ public class Usuarios {
         this.correo = correo;
     }
 
-    public String getLugar() {
-        return lugar;
+    public String getFoto() {
+        return foto;
     }
 
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public Usuarios() {};

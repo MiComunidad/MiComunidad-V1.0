@@ -20,5 +20,21 @@
     <string name="facebook_app_id">163177660997326</string>
     <string name="fb_login_protocol_scheme">fb163177660997326</string>
     <string name="IniciarS">Iniciar Sesión</string>
+    <string name="Nombre">Nombre</string>
+    <string name="direccion">Direccion</string>
+    <string name="Hotel">Hotel</string>
+    <string name="title_activity_principal">PrincipalActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_servicios">ServiciosActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Hoteles">Hoteles</string>
+    <string name="restaurantes">Restaurantes</string>
 
 </resources>

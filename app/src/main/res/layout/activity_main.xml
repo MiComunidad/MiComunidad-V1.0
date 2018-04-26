@@ -29,7 +29,8 @@
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="ClickedText"/>
 
     </LinearLayout>
     <LinearLayout
