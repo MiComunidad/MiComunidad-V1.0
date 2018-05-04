@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // comprobar cuentas logeadas
         if(FirebaseAuth.getInstance().getCurrentUser() == null
                               ) {
-
             Intent i = new Intent(MainActivity.this, SplashActivity.class);
             startActivity(i);
             finish();
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         switch (id){
             case R.id.mMiPerfil:
                 Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 break;
             case R.id.mCerrarSe:
@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 public void onResult(@NonNull Status status) {
                     if (status.isSuccess()) {
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                         finish();
                     }
@@ -153,7 +154,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void ClickedText(View view) {
-        Intent intent = new Intent(MainActivity.this, ServiciosActivity.class);
-        startActivity(intent);
+        int id = view.getId();
+        switch (id){
+            case R.id.tServicios:
+                Intent intent = new Intent(MainActivity.this, ServiciosActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.tFavoritos:
+                Intent intent1 = new Intent(MainActivity.this, FavoritosActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.tRecomendaciones:
+                Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(intent2);
+        }
+
     }
+
+    @Override
+    public void onBackPressed() { moveTaskToBack(true); super.onBackPressed(); }
 }

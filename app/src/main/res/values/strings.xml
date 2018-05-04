@@ -36,5 +36,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="Hoteles">Hoteles</string>
     <string name="restaurantes">Restaurantes</string>
+    <string name="res">RESTAURANT</string>
+    <string name="favotiros">Favoritos</string>
+    <string name="recomendaciones">Recomendaciones</string>
+    <string name="mapa">Mapa</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

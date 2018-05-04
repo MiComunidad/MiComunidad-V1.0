@@ -5,55 +5,24 @@ package com.jhonatan.laboratorio_ii.Modelo;
  */
 
 public class Servicios {
-    private String id,Nombre,Direccion,foto,contacto,descripcion,horario;
-
-    public String getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(String contacto) {
-        this.contacto = contacto;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getHorario() {
-        return horario;
-    }
-
-    public void setHorario(String horario) {
-        this.horario = horario;
-    }
+    private String id,Nombre,Direccion,Foto,Contacto,Descripcion,Horario;
 
     public Servicios(String nombre, String direccion, String foto, String contacto, String descripcion, String horario) {
         Nombre = nombre;
         Direccion = direccion;
-        this.foto = foto;
-        this.contacto = contacto;
-        this.descripcion = descripcion;
-        this.horario = horario;
-    }
-
-    public Servicios(String id, String nombre, String direccion, String foto) {
-        this.id = id;
-        Nombre = nombre;
-        Direccion = direccion;
-        this.foto = foto;
-    }
-
-    public Servicios() {
+        Foto = foto;
+        Contacto = contacto;
+        Descripcion = descripcion;
+        Horario = horario;
     }
 
     public Servicios(String nombre, String direccion, String foto) {
         Nombre = nombre;
         Direccion = direccion;
-        this.foto = foto;
+        Foto = foto;
+    }
+
+    public Servicios() {
     }
 
     public String getId() {
@@ -81,11 +50,35 @@ public class Servicios {
     }
 
     public String getFoto() {
-        return foto;
+        return Foto;
     }
 
     public void setFoto(String foto) {
-        this.foto = foto;
+        Foto = foto;
+    }
+
+    public String getContacto() {
+        return Contacto;
+    }
+
+    public void setContacto(String contacto) {
+        Contacto = contacto;
+    }
+
+    public String getDescripcion() {
+        return Descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        Descripcion = descripcion;
+    }
+
+    public String getHorario() {
+        return Horario;
+    }
+
+    public void setHorario(String horario) {
+        Horario = horario;
     }
 }
 

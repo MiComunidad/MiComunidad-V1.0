@@ -4,6 +4,9 @@
         android:title ="@string/Principal"
         android:id="@+id/mPrincipal"/>
     <item
+        android:title="Favoritos"
+        android:id="@+id/mFavoritos"/>
+    <item
         android:title ="@string/CerrarS"
         android:id="@+id/mCerrarS"/>
 </menu>

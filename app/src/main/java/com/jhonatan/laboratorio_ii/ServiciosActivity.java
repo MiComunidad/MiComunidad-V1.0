@@ -1,5 +1,7 @@
 package com.jhonatan.laboratorio_ii;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -18,6 +20,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 public class ServiciosActivity extends AppCompatActivity {
 
@@ -95,4 +106,35 @@ public class ServiciosActivity extends AppCompatActivity {
             return 3;
         }
     }
+    //ASIGNA EL MENU PREVIAMENTE CREADO
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_servicios,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.mMiPerfil:
+                Intent intent = new Intent(ServiciosActivity.this, PerfilActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.mFavoritos:
+                Intent intent2 = new Intent(ServiciosActivity.this, FavoritosActivity.class);
+                startActivity(intent2);
+                finish();
+                break;
+            case R.id.mMapa:
+                Intent intent3 = new Intent(ServiciosActivity.this, MapsActivity.class);
+                startActivity(intent3);
+                finish();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

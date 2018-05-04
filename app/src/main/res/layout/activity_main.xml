@@ -13,20 +13,33 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:src="@drawable/turismo"
-
-            android:layout_gravity="center"/>
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tServicios"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/turismo"
+            android:layout_margin="2sp"
+            android:background="@drawable/turismo"
+            android:gravity="center"
+            android:onClick="ClickedText"
+            android:text="Servicios"
+            android:textColor="@color/white"
             android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tFavoritos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/favotiros"
+            android:background="@drawable/bares"
+            android:textSize="25sp"
+            android:layout_margin="2sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:gravity="center"
@@ -38,45 +51,19 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/bares"
-            android:padding="5dp"
-            android:layout_gravity="center"/>
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/tRecomendaciones"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/bares"
+            android:layout_margin="5sp"
+            android:background="@drawable/hotel"
+            android:text="@string/recomendaciones"
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:gravity="center"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/hotel"
-            android:padding="5dp"
-            android:layout_gravity="center"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/hoteleria"
-            android:textSize="25sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:onClick="ClickedText"/>
 
     </LinearLayout>
 

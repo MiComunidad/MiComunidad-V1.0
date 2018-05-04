@@ -131,7 +131,12 @@ public class PerfilActivity extends AppCompatActivity implements GoogleApiClient
             case R.id.mCerrarS:
                cerrarSesion();
                 break;
-
+            case R.id.mFavoritos:
+                Intent intent2 = new Intent(PerfilActivity.this, FavoritosActivity.class);
+                intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent2);
+                finish();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -144,6 +149,7 @@ public class PerfilActivity extends AppCompatActivity implements GoogleApiClient
                 public void onResult(@NonNull Status status) {
                     if (status.isSuccess()) {
                         Intent intent = new Intent(PerfilActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
                     }
@@ -213,8 +219,6 @@ public class PerfilActivity extends AppCompatActivity implements GoogleApiClient
             }
         });
     }*/
-
-
 
 }
 

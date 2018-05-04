@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:background="@color/black"
     tools:context="com.jhonatan.laboratorio_ii.ServiciosActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,7 +19,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="39dp"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
@@ -33,9 +34,9 @@
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Hoteles" />
+                android:text="@string/Hoteles"/>
 
             <android.support.design.widget.TabItem
                 android:id="@+id/tabItem2"
@@ -47,7 +48,7 @@
                 android:id="@+id/tabItem3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/restaurantes" />
+                android:text="@string/res" />
 
         </android.support.design.widget.TabLayout>
 
