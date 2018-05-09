@@ -1,25 +1,41 @@
 package com.jhonatan.laboratorio_ii.Modelo;
 
+import java.io.Serializable;
+
 /**
  * Created by Jhonatan on 25/04/2018.
  */
 
-public class Servicios {
-    private String id,Nombre,Direccion,Foto,Contacto,Descripcion,Horario;
+public class Servicios implements Serializable{
+    private String id,Nombre,Direccion,Foto,Contacto,Descripcion,Horarios;
 
-    public Servicios(String nombre, String direccion, String foto, String contacto, String descripcion, String horario) {
+    public Servicios(String nombre, String direccion, String foto, String contacto, String descripcion, String horarios) {
         Nombre = nombre;
         Direccion = direccion;
         Foto = foto;
         Contacto = contacto;
         Descripcion = descripcion;
-        Horario = horario;
+        Horarios = horarios;
     }
 
     public Servicios(String nombre, String direccion, String foto) {
         Nombre = nombre;
         Direccion = direccion;
         Foto = foto;
+    }
+
+    public Servicios(String id) {
+        this.id = id;
+    }
+
+    public Servicios(String id, String nombre, String direccion, String foto, String contacto, String descripcion, String horarios) {
+        this.id = id;
+        Nombre = nombre;
+        Direccion = direccion;
+        Foto = foto;
+        Contacto = contacto;
+        Descripcion = descripcion;
+        Horarios = horarios;
     }
 
     public Servicios() {
@@ -73,12 +89,12 @@ public class Servicios {
         Descripcion = descripcion;
     }
 
-    public String getHorario() {
-        return Horario;
+    public String getHorarios() {
+        return Horarios;
     }
 
-    public void setHorario(String horario) {
-        Horario = horario;
+    public void setHorario(String horarios) {
+        Horarios = horarios;
     }
 }
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -70,30 +71,26 @@ public class PerfilActivity extends AppCompatActivity implements GoogleApiClient
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
-        FirebaseDatabase.getInstance();
-        databaseReference= FirebaseDatabase.getInstance().getReference();
-
         tNombre=findViewById(R.id.tNombre);
         tCorreo=findViewById(R.id.tCorreo);
         iFoto = findViewById(R.id.iFoto);
-
         inicializar();
-
 
     }
 
 
 
+
     private void inicializar() {
         firebaseAuth = FirebaseAuth.getInstance();
-
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null){
-                    tCorreo.setText("Correo: " + firebaseUser.getEmail() );
-                    Picasso.get().load(firebaseUser.getPhotoUrl()).into(iFoto);
+                   tCorreo.setText("Correo: " + firebaseUser.getEmail());
+                   tNombre.setText("Nombre: " + firebaseUser.getDisplayName());
+                   Picasso.get().load(firebaseUser.getPhotoUrl()).into(iFoto);
                 }else {
                     Log.d("Usuario logeado: ", "No hay");
                 }
@@ -219,6 +216,19 @@ public class PerfilActivity extends AppCompatActivity implements GoogleApiClient
             }
         });
     }*/
+//USUARIO ADAPTER
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(authStateListener);
+    }
 }
 
