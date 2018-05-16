@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(intent1);
                 break;
             case R.id.tRecomendaciones:
-                Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
+                Intent intent2 = new Intent(MainActivity.this, MapsRescomendacionesActivity.class);
                 startActivity(intent2);
         }
 

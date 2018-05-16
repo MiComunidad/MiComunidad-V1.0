@@ -135,5 +135,7 @@
     <string name="misfavotiros">MIS FAVORITOS</string>
     <string name="title_activity_favoritos">FavoritosActivity</string>
     <string name="servicios">Servicios</string>
+    <string name="title_activity_maps_servicios">Servicios</string>
+    <string name="title_activity_maps_rescomendaciones">Map</string>
 
 </resources>

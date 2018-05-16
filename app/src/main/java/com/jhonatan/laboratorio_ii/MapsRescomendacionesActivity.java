@@ -1,42 +1,27 @@
 package com.jhonatan.laboratorio_ii;
-
-import android.*;
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapRegionDecoder;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.jhonatan.laboratorio_ii.Modelo.DirectionsParser;
-import com.jhonatan.laboratorio_ii.Modelo.Servicios;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,73 +31,53 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
+
+public class MapsRescomendacionesActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> listPoints;
-    private Marker marcador, mServicios;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-    double lat ;
-    double lng ;
-    private Servicios servicios = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps_rescomendaciones);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsRescomendacionesActivity.this);
+        builder.setIcon(R.mipmap.ic_launcher)
+                .setTitle("¿Desea recomendar un sendero?")
+                .setMessage("para recomendar un sendero primero seleccione la ruta dejando presionado un lugar del mapa" +
+                        " , así se marca el punto de inicio y final").
+                setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).
+                setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(MapsRescomendacionesActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+        builder.create();
+        builder.show();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         listPoints = new ArrayList<>();
 
-        Bundle serviciosel = getIntent().getExtras();
-
-        if (serviciosel != null) {
-            servicios = (Servicios) serviciosel.getSerializable("favoritos");
-        }
-
-
-
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case 10:
-                geolocalizar();
-                break;
-            default:
-                return;
-        }
-    }
 
-    public void geolocalizar() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M ){
-
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.INTERNET},10);
-            }
-
-            return;
-        }
-        locationManager.requestLocationUpdates("gps",1200,10,locationListener);
-    }
-
-    public void setLatLng(double lat,double lng){
-        this.lat = lat;
-        this.lng = lng;
-    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -123,72 +88,81 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     @Override
-    public void onMapReady(final GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
-
-        //nuevo codigo
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST);
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
-            public void onLocationChanged(Location location) {
-                LatLng latLng = new LatLng(Double.parseDouble(servicios.getLat()),Double.parseDouble( servicios.getLng()));
-                lat = location.getLatitude();
-                lng = location.getLongitude();
-                Log.d("coordenada" , String.valueOf(lat));
-                setLatLng(location.getLatitude(),location.getLongitude());
-                LatLng latLngPos = new LatLng(lat,lng);
-
+            public void onMapLongClick(final LatLng latLng) {
+                //Reset marker when already 2
+                if (listPoints.size() == 2) {
+                    listPoints.clear();
                     mMap.clear();
-                    marcador= googleMap.addMarker(new MarkerOptions().position(latLngPos)
-                        .title("Mi posición actual")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngPos,12));
-                    mServicios=googleMap.addMarker(new MarkerOptions().position(latLng)
-                        .title(servicios.getNombre().toString())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                String url = getRequestUrl(latLngPos, latLng);
-                TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
-                taskRequestDirections.execute(url);
+                }
+                //Save first point select
+                listPoints.add(latLng);
+                //Create marker
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
 
+                if (listPoints.size() == 1) {
+                    //Add first marker to the map
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                } else {
+                    //Add second marker to the map
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                }
+                mMap.addMarker(markerOptions);
+
+                if (listPoints.size() == 2) {
+                    //Create the URL to get request from first marker to second marker
+                    String url = getRequestUrl(listPoints.get(0), listPoints.get(1));
+                    TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
+                    taskRequestDirections.execute(url);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MapsRescomendacionesActivity.this);
+                    builder.setIcon(R.mipmap.ic_launcher)
+                            .setTitle("¿Desea continuar?")
+                            .setMessage("Deberá llenar un formulario con las especificaciones del lugar").
+                            setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent(MapsRescomendacionesActivity.this,RegistrarSenderoActivity.class);
+                                    intent.putExtra("lat",listPoints);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }).
+                            setNegativeButton("Cambiar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }
             }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        };
-        geolocalizar();
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+        });
 
     }
-
-
     private String getRequestUrl(LatLng origin, LatLng dest) {
         //Value of origin
-        String str_org = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_org = "origin=" + origin.latitude +","+origin.longitude;
         //Value of destination
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+        String str_dest = "destination=" + dest.latitude+","+dest.longitude;
         //Set value enable the sensor
         String sensor = "sensor=false";
         //Mode for find direction
         String mode = "mode=driving";
         //Build the full param
-        String param = str_org + "&" + str_dest + "&" + sensor + "&" + mode;
+        String param = str_org +"&" + str_dest + "&" +sensor+"&" +mode;
         //Output format
         String output = "json";
         //Create url to request
@@ -200,7 +174,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String responseString = "";
         InputStream inputStream = null;
         HttpURLConnection httpURLConnection = null;
-        try {
+        try{
             URL url = new URL(reqUrl);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.connect();
@@ -231,6 +205,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return responseString;
     }
 
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case LOCATION_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                }
+                break;
+        }
+    }
 
     public class TaskRequestDirections extends AsyncTask<String, Void, String> {
 
@@ -242,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return responseString;
+            return  responseString;
         }
 
         @Override
@@ -254,7 +239,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>>> {
+    public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>> > {
 
         @Override
         protected List<List<HashMap<String, String>>> doInBackground(String... strings) {
@@ -286,7 +271,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     double lat = Double.parseDouble(point.get("lat"));
                     double lon = Double.parseDouble(point.get("lon"));
 
-                    points.add(new LatLng(lat, lon));
+                    points.add(new LatLng(lat,lon));
                 }
 
                 polylineOptions.addAll(points);
@@ -295,7 +280,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 polylineOptions.geodesic(true);
             }
 
-            if (polylineOptions != null) {
+            if (polylineOptions!=null) {
                 mMap.addPolyline(polylineOptions);
             } else {
                 Toast.makeText(getApplicationContext(), "Direction not found!", Toast.LENGTH_SHORT).show();
@@ -303,26 +288,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     }
-   
-  
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
-    }
-
-    @Override
-    public void onMarkerDragStart(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDrag(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-
-    }
 }
-

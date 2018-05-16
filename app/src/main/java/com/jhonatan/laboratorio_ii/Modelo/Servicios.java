@@ -7,7 +7,49 @@ import java.io.Serializable;
  */
 
 public class Servicios implements Serializable{
-    private String id,Nombre,Direccion,Foto,Contacto,Descripcion,Horarios;
+    private String id;
+    private String Nombre;
+    private String Direccion;
+    private String Foto;
+    private String Contacto;
+    private String Descripcion;
+    private String Horarios;
+    private String lat;
+    private String lng;
+
+    public Servicios(String id, String nombre, String direccion, String foto, String contacto, String descripcion, String horarios, String lat, String lng) {
+        this.id = id;
+        Nombre = nombre;
+        Direccion = direccion;
+        Foto = foto;
+        Contacto = contacto;
+        Descripcion = descripcion;
+        Horarios = horarios;
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+
+
+    public void setHorarios(String horarios) {
+        Horarios = horarios;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
 
     public Servicios(String nombre, String direccion, String foto, String contacto, String descripcion, String horarios) {
         Nombre = nombre;

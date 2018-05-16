@@ -81,11 +81,6 @@ public class FavoritosActivity extends AppCompatActivity {
                 startActivity(intent2);
                 finish();
                 break;
-            case R.id.mMapa:
-                Intent intent3 = new Intent(FavoritosActivity.this, MapsActivity.class);
-                startActivity(intent3);
-                finish();
-                break;
 
         }
         return super.onOptionsItemSelected(item);

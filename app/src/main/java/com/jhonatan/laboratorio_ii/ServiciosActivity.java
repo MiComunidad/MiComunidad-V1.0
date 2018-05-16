@@ -70,6 +70,11 @@ public class ServiciosActivity extends AppCompatActivity {
 
     }
 
+    public void goMap(View view) {
+        Intent intent3 = new Intent(ServiciosActivity.this, MapsServiciosActivity.class);
+        startActivity(intent3);
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -127,12 +132,6 @@ public class ServiciosActivity extends AppCompatActivity {
                 startActivity(intent2);
                 finish();
                 break;
-            case R.id.mMapa:
-                Intent intent3 = new Intent(ServiciosActivity.this, MapsActivity.class);
-                startActivity(intent3);
-                finish();
-                break;
-
         }
         return super.onOptionsItemSelected(item);
     }

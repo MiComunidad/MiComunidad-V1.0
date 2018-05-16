@@ -105,10 +105,12 @@ public class DetallesActivity extends AppCompatActivity {
                 Servicios servicios1 = null;
 
                 if(serviciosel1 != null){
-                    servicios =(Servicios) serviciosel1.getSerializable("servicios");
+
+                    servicios1 =(Servicios) serviciosel1.getSerializable("servicios");
+
                     Intent i1 = new Intent (DetallesActivity.this,MapsActivity.class);
                     Bundle favoritos = new Bundle();
-                    favoritos.putSerializable("favoritos",servicios);
+                    favoritos.putSerializable("favoritos",servicios1);
                     i1.putExtras(favoritos);
                     startActivity(i1);
                 }

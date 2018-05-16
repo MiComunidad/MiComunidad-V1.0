@@ -11,8 +11,4 @@
         android:id="@+id/mMiPerfil"
         android:title="@string/MiPerfil"
         />
-    <item
-        android:id="@+id/mMapa"
-        android:title="@string/mapa"
-        />
 </menu>
