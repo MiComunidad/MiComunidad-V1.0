@@ -58,7 +58,22 @@ public class FavoritosActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
     }
-
+    public void goMap(View view) {
+        Intent intent3 = new Intent(FavoritosActivity.this, MapsServiciosActivity.class);
+        boolean mr1=true,mr2=true,mr3=true,mr4 = true,mh1=true,mh2=true,mh3=true,mh4=true,mt1=true,mt2=true,mt3=true;
+        intent3.putExtra("mr1",mr1);
+        intent3.putExtra("mr2",mr2);
+        intent3.putExtra("mr3",mr3);
+        intent3.putExtra("mr4",mr4);
+        intent3.putExtra("mh1",mh1);
+        intent3.putExtra("mh2",mh2);
+        intent3.putExtra("mh3",mh3);
+        intent3.putExtra("mh4",mh4);
+        intent3.putExtra("mt1",mt1);
+        intent3.putExtra("mt2",mt2);
+        intent3.putExtra("mt3",mt3);
+        startActivity(intent3);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

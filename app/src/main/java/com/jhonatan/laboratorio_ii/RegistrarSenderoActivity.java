@@ -1,30 +1,36 @@
 package com.jhonatan.laboratorio_ii;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.ArrayList;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 public class RegistrarSenderoActivity extends AppCompatActivity {
 
-    ArrayList<LatLng> listPoints;
+    private EditText eNombre, eDescripcion,  ePuntos ;
+    private ImageView iFoto;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_sendero);
-        listPoints = new ArrayList<>();
 
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null){
-            listPoints = (ArrayList<LatLng>) bundle.get("lat");
-        }
+        eNombre = findViewById(R.id.eNombre);
+        eDescripcion = findViewById(R.id.eDescripcion);
+        ePuntos = findViewById(R.id.ePuntos);
+        iFoto = findViewById(R.id.iFoto);
 
-        Log.d("punto1: " , listPoints.get(0).toString());
-        Log.d("punto1: " , listPoints.get(1).toString());
+    }
 
+    public void onButtonClicked(View view) {
+        Intent intent = new Intent(RegistrarSenderoActivity.this, MapsRescomendacionesActivity.class);
+        intent.putExtra("nombre", eNombre.getText().toString());
+        intent.putExtra("puntos",ePuntos.getText().toString());
+        intent.putExtra("descripcion", eDescripcion.getText().toString());
+        startActivity(intent);
+        finish();
     }
 }

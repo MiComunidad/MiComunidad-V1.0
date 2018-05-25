@@ -27,8 +27,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_margin="2dp"
-                android:drawableLeft="@android:drawable/btn_star_big_off"
-                android:text="Añadir a favoritos"
                 android:id="@+id/bFavoritos"
                 android:onClick="onButtonClicked"
                 android:textColor="@color/white"

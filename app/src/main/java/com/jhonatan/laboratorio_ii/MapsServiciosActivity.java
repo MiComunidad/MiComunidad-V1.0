@@ -1,11 +1,9 @@
 package com.jhonatan.laboratorio_ii;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +33,7 @@ public class MapsServiciosActivity extends FragmentActivity implements OnMapRead
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    boolean mr1=true,mr2=true,mr3=true,mr4 = true,mh1=true,mh2=true,mh3=true,mh4=true,mt1=true,mt2=true,mt3=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +44,21 @@ public class MapsServiciosActivity extends FragmentActivity implements OnMapRead
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         serviciosList = new ArrayList<>();
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null){
+            mr1 = (boolean) bundle.get("mr1");
+            mr2 = (boolean) bundle.get("mr2");
+            mr3 = (boolean) bundle.get("mr3");
+            mr4 = (boolean) bundle.get("mr4");
+            mh1 = (boolean) bundle.get("mh1");
+            mh2 = (boolean) bundle.get("mh2");
+            mh3 = (boolean) bundle.get("mh3");
+            mh4 = (boolean) bundle.get("mh4");
+            mt1 = (boolean) bundle.get("mt1");
+            mt2 = (boolean) bundle.get("mt2");
+            mt3 = (boolean) bundle.get("mt3");
+        }
     }
 
 
@@ -70,70 +84,80 @@ public class MapsServiciosActivity extends FragmentActivity implements OnMapRead
         mR3 = googleMap.addMarker(new MarkerOptions()
         .position(rCanela)
         .title("Restaurante Canela")
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante)));
+        .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante))
+        .visible(mr3));
 
         LatLng rMonasterio = new LatLng(6.210057553940865,-75.4987408965826);
         mR4 = googleMap.addMarker(new MarkerOptions()
                 .position(rMonasterio)
                 .title("Restaurante El Monasterio")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante))
+                .visible(mr4));
 
         LatLng rMontañita = new LatLng(6.2149431,-75.50231694444444);
         mR1 = googleMap.addMarker(new MarkerOptions()
                 .position(rMontañita)
                 .title("Restaurante la Montalita")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante))
+                .visible(mr1));
 
         LatLng rCañaBrava = new LatLng(6.216212396844197,-75.50327181816101);
         mR2 = googleMap.addMarker(new MarkerOptions()
                 .position(rCañaBrava)
                 .title("Restaurante Caña Brava")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mrestaurante))
+                .visible(mr2));
 
         //Marcadores Hoteles
         LatLng hBosque = new LatLng(6.252634684726873,-75.50547122955322);
         mH1 = googleMap.addMarker(new MarkerOptions()
                 .position(hBosque)
                 .title("Hotel El Bosque")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel))
+                .visible(mh1));
 
         LatLng hMontañaMagica = new LatLng(6.23454650885971,-75.49542903900146);
         mH2 = googleMap.addMarker(new MarkerOptions()
                 .position(hMontañaMagica)
                 .title("Hotel Montaña Magica")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel))
+                .visible(mh2));
 
         LatLng hComfenalco = new LatLng(6.296422199999999,-75.5020672);
         mH3 = googleMap.addMarker(new MarkerOptions()
                 .position(hComfenalco)
                 .title("Hotel Comfenalco")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel))
-                );
+                .visible(mh3));
 
         LatLng hMontevivo = new LatLng(6.208586327180418,-75.49116969108582);
         mH4 = googleMap.addMarker(new MarkerOptions()
                 .position(hMontevivo)
                 .title("Hotel MonteVivo")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mhotel))
+                .visible(mh4));
 
         //Marcadores Turismo
         LatLng tComfama = new LatLng(6.2617425,-75.49454930000002);
         mT1 = googleMap.addMarker(new MarkerOptions()
                 .position(tComfama)
                 .title("Turismo Comfama")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo))
+                .visible(mt1));
 
         LatLng tReservaMontevivo = new LatLng(6.208582,-75.49116500000002);
         mT2 = googleMap.addMarker(new MarkerOptions()
                 .position(tReservaMontevivo)
                 .title("Turismo Reserva MonteVivo")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo))
+                .visible(mt2));
 
         LatLng tComfenalco = new LatLng(6.2947181,-75.5016789);
         mT3 = googleMap.addMarker(new MarkerOptions()
                 .position(tComfenalco)
                 .title("Turismo Comfenalco")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.mturismo))
+                .visible(mt3));
 
         googleMap.setOnMarkerClickListener(this);
 

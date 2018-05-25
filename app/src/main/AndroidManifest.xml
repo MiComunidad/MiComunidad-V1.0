@@ -65,7 +65,8 @@
         <activity
             android:name=".MapsRescomendacionesActivity"
             android:label="@string/title_activity_maps_rescomendaciones" />
-        <activity android:name=".RegistrarSenderoActivity"></activity>
+        <activity android:name=".RegistrarSenderoActivity" />
+        <activity android:name=".SenderosActivity"></activity>
     </application>
 
 </manifest>

@@ -1,23 +1,22 @@
 package com.jhonatan.laboratorio_ii;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.jhonatan.laboratorio_ii.Modelo.Servicios;
-import com.jhonatan.laboratorio_ii.Modelo.Usuarios;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,6 +28,8 @@ public class DetallesActivity extends AppCompatActivity {
     private ArrayList<Servicios> serviciosList;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private Button bFavoritos;
+    int contador=0;
 
 
     @Override
@@ -42,6 +43,7 @@ public class DetallesActivity extends AppCompatActivity {
             tHorario = findViewById(R.id.tHorario);
             tNombre = findViewById(R.id.tNombre);
             iServicio = findViewById(R.id.iServicio);
+            bFavoritos = findViewById(R.id.bFavoritos);
 
 
         Bundle serviciosel = getIntent().getExtras();
@@ -57,48 +59,106 @@ public class DetallesActivity extends AppCompatActivity {
             tNombre.setText(servicios.getNombre().toString() + "\n");
             tContacto.setText("Contacto: " + servicios.getContacto().toString() + "\n");
             Picasso.get().load(servicios.getFoto()).into(iServicio);
+
         }
 
+        if(contador == 0) {
+            bFavoritos.setText("Añadir a favoritos");
+            Drawable image = getApplicationContext().getResources().getDrawable(R.drawable.btn_star_big_off);
+            int h = image.getIntrinsicHeight();
+            int w = image.getIntrinsicWidth();
+            image.setBounds(0, 0, w, h);
+            bFavoritos.setCompoundDrawables(image, null, null, null);
+        }
+        else if(contador == 1){
+            bFavoritos.setText("Quitar de favoritos");
+            Drawable image = getApplicationContext().getResources().getDrawable(R.drawable.btn_star_big_on);
+            int h = image.getIntrinsicHeight();
+            int w = image.getIntrinsicWidth();
+            image.setBounds(0, 0, w, h);
+            bFavoritos.setCompoundDrawables(image, null, null, null);
+        }
     }
 
     public void onButtonClicked(View view) {
-
         int id = view.getId();
+
         switch (id){
             case  R.id.bFavoritos:
-            Bundle serviciosel = getIntent().getExtras();
-            Servicios servicios = null;
+                if(contador == 0) {
 
-            if(serviciosel != null){
-                servicios =(Servicios) serviciosel.getSerializable("servicios");
+                    Bundle serviciosel = getIntent().getExtras();
+                    Servicios servicios = null;
 
-                FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
-                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                    if (serviciosel != null) {
+                        servicios = (Servicios) serviciosel.getSerializable("servicios");
 
-                FirebaseDatabase.getInstance();
-                final DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference();
+                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
 
-                final Servicios finalServicios = servicios;
-                databaseReference.child("Usuarios").child(firebaseUser.getUid()).
-                        addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()){
-                                    Log.d("usuario", "Ok");
-                                    databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).setValue(finalServicios.getId());
+                        FirebaseDatabase.getInstance();
+                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                        final Servicios finalServicios = servicios;
+
+                                            databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).setValue(finalServicios.getId());
+                                            Toast.makeText(DetallesActivity.this, "Se agregó a favoritos", Toast.LENGTH_SHORT).show();
+                                            contador = contador +1;
+
+                        bFavoritos.setText("Quitar de favoritos");
+                        Drawable image = getApplicationContext().getResources().getDrawable(R.drawable.btn_star_big_on);
+                        int h = image.getIntrinsicHeight();
+                        int w = image.getIntrinsicWidth();
+                        image.setBounds(0, 0, w, h);
+                        bFavoritos.setCompoundDrawables(image, null, null, null);
+                    }
+
+                }else if(contador == 1) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DetallesActivity.this);
+                    builder.setIcon(R.mipmap.ic_launcher)
+                            .setTitle("¿Desea quitar de favoritos?")
+                            .setMessage("El servicio se eleminará de la lista de favoritos").
+                            setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Bundle serviciosel = getIntent().getExtras();
+                                    Servicios servicios = null;
+
+                                    if (serviciosel != null) {
+                                        servicios = (Servicios) serviciosel.getSerializable("servicios");
+
+                                        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                                        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+
+                                        FirebaseDatabase.getInstance();
+                                        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+                                        final Servicios finalServicios = servicios;
+
+                                                            databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).removeValue();
+                                                            Toast.makeText(DetallesActivity.this, "se quito", Toast.LENGTH_SHORT).show();
+                                                            contador = 0;
+                                    }
+                                    bFavoritos.setText("Añadir a favoritos");
+                                    Drawable image = getApplicationContext().getResources().getDrawable(R.drawable.btn_star_big_off);
+                                    int h = image.getIntrinsicHeight();
+                                    int w = image.getIntrinsicWidth();
+                                    image.setBounds(0, 0, w, h);
+                                    bFavoritos.setCompoundDrawables(image, null, null, null);
+
                                 }
-                                else{
-                                    Log.d("usuario", "No");
+
+                            }).
+                            setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-            }
-
+                            });
+                    builder.create();
+                    builder.show();
+                }
             break;
             case R.id.bMapa:
                 Bundle serviciosel1 = getIntent().getExtras();
