@@ -137,5 +137,18 @@
     <string name="servicios">Servicios</string>
     <string name="title_activity_maps_servicios">Servicios</string>
     <string name="title_activity_maps_rescomendaciones">Map</string>
+    <string name="senderos">Este segmento es de los usuarios y para los usuarios, en el cual podrán recomendar
+    senderos y visualizar senderos recomendados por otros usuarios, así podrán compartir sus experiencias y aventuras
+    en las montañas de Santa Elena y sus alrededores</string>
+    <string name="RegistarSendero">Registrar Sendero</string>
+    <string name="nombreS">Nombre del Sendero:</string>
+    <string name="descripcionS">Agregue una breve descripción:</string>
+    <string name="puntos">¿Cuantas paradas tendrá el sendero?:</string>
+    <string name="continuar">Continuar</string>
+    <string name="ubicacionS">Ubicacion:</string>
+    <string name="sender">Senderos</string>
+    <string name="MiComunidad">Mi comunidad te acerca al corregimiento de Santa Elena</string>
+    <string name="Informacion">Información</string>
+    <string name="info">Mi Comunidad es una aplicación desarrollado por estudiantes de ingeniería Electrónica de la Universidad de Antioquia,Pensada para facilitar a los turistas la obtenención de información relevante de los diferentes servicios que se prestan en este hermoso corregimiento llamado Santa Elena. Además podrás interactuar con los comerciantes y otros usuarios.</string>
 
 </resources>

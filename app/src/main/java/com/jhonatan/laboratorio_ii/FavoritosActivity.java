@@ -1,26 +1,35 @@
 package com.jhonatan.laboratorio_ii;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.jhonatan.laboratorio_ii.Modelo.Servicios;
+
+import java.util.ArrayList;
 
 public class FavoritosActivity extends AppCompatActivity {
+    private ArrayList<Servicios> serviciosListH;
+    private ArrayList<Servicios> serviciosListT;
+    private ArrayList<Servicios> serviciosListR;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private ArrayList<Boolean> favoritosH;
+    private ArrayList<Boolean> favoritosR;
+    private ArrayList<Boolean> favoritosT;
+
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -56,10 +65,76 @@ public class FavoritosActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        serviciosListH = new ArrayList<>();
+        serviciosListT = new ArrayList<>();
+        serviciosListR = new ArrayList<>();
+        favoritosH = new ArrayList<>();
+        favoritosR = new ArrayList<>();
+        favoritosT = new ArrayList<>();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("Servicio").child("Hoteles").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                serviciosListH.clear();
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        Servicios servicios= snapshot.getValue(Servicios.class);
+                        serviciosListH.add(servicios);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Servicio").child("Turismo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                serviciosListT.clear();
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        Servicios servicios= snapshot.getValue(Servicios.class);
+                        serviciosListT.add(servicios);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Servicio").child("Restaurantes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                serviciosListR.clear();
+                if(dataSnapshot.exists()){
+                    for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        Servicios servicios= snapshot.getValue(Servicios.class);
+                        serviciosListR.add(servicios);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
     public void goMap(View view) {
         Intent intent3 = new Intent(FavoritosActivity.this, MapsServiciosActivity.class);
+        serviciosListH.get(0).getFavoritos().toString();
+
+
         boolean mr1=true,mr2=true,mr3=true,mr4 = true,mh1=true,mh2=true,mh3=true,mh4=true,mt1=true,mt2=true,mt3=true;
         intent3.putExtra("mr1",mr1);
         intent3.putExtra("mr2",mr2);
@@ -73,32 +148,6 @@ public class FavoritosActivity extends AppCompatActivity {
         intent3.putExtra("mt2",mt2);
         intent3.putExtra("mt3",mt3);
         startActivity(intent3);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_favoritos, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        switch (id){
-            case R.id.mMiPerfil:
-                Intent intent = new Intent(FavoritosActivity.this, PerfilActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.mServicios:
-                Intent intent2 = new Intent(FavoritosActivity.this,ServiciosActivity.class);
-                startActivity(intent2);
-                finish();
-                break;
-
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -115,10 +164,10 @@ public class FavoritosActivity extends AppCompatActivity {
                     FavoritosHFragment tab1 = new FavoritosHFragment();
                     return tab1;
                 case 1:
-                    FavoritosTFragment tab2 = new FavoritosTFragment();
+                    FavoritosRFragment tab2 = new FavoritosRFragment();
                     return tab2;
                 case 2:
-                    FavoritosRFragment tab3 = new FavoritosRFragment();
+                    FavoritosTFragment tab3 = new FavoritosTFragment();
                     return tab3;
                 default:
                     return null;

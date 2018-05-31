@@ -11,37 +11,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jhonatan.laboratorio_ii.DetallesActivity;
-import com.jhonatan.laboratorio_ii.Modelo.Servicios;
+import com.jhonatan.laboratorio_ii.DetallesSenderosActivity;
+import com.jhonatan.laboratorio_ii.Modelo.Senderos;
 import com.jhonatan.laboratorio_ii.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by Jhonatan on 25/04/2018.
+ * Created by Jhonatan on 26/05/2018.
  */
 
-public class AdapterServicios  extends RecyclerView.Adapter<AdapterServicios.ServiciosViewHolder>
-implements View.OnClickListener{
+public class AdapterSenderos extends RecyclerView.Adapter<AdapterSenderos.SenderosViewHolder>
+        implements View.OnClickListener{
 
-    private ArrayList<Servicios> servicioslist;
+    private ArrayList<Senderos> senderoslist;
     private int resource;
     private Activity activity;
     private View.OnClickListener listener;
 
-    public AdapterServicios(ArrayList<Servicios> servicioslist){
-        this.servicioslist = servicioslist;
+    public AdapterSenderos(ArrayList<Senderos> senderoslist){
+        this.senderoslist = senderoslist;
     }
 
-    public AdapterServicios(ArrayList<Servicios> servicioslist, int resource, Activity activity) {
-        this.servicioslist = servicioslist;
+    public AdapterSenderos(ArrayList<Senderos> senderoslist, int resource, Activity activity) {
+        this.senderoslist = senderoslist;
         this.resource = resource;
         this.activity = activity;
     }
 
     @Override
-    public ServiciosViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public AdapterSenderos.SenderosViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(resource,parent,false);
 
@@ -49,24 +49,24 @@ implements View.OnClickListener{
             @Override
             public void onClick(View view) {
 
-                        Toast.makeText(activity, "asd" ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "asd" ,Toast.LENGTH_SHORT).show();
 
             }
         });
-        return new ServiciosViewHolder(itemView);
+        return new AdapterSenderos.SenderosViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ServiciosViewHolder holder, int position) {
+    public void onBindViewHolder(AdapterSenderos.SenderosViewHolder holder, int position) {
 
-        final Servicios servicios  = servicioslist.get(position);
-        holder.bindServicios(servicios, activity);
+        final Senderos senderos  = senderoslist.get(position);
+        holder.bindSenderos(senderos, activity);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity,DetallesActivity.class);
+                Intent intent = new Intent(activity,DetallesSenderosActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("servicios",servicios);
+                bundle.putSerializable("senderos",senderos);
                 intent.putExtras(bundle);
                 activity.startActivity(intent);
             }
@@ -76,7 +76,7 @@ implements View.OnClickListener{
 
     @Override
     public int getItemCount() {
-        return servicioslist.size();
+        return senderoslist.size();
     }
 
     public void setOnClickListener(View.OnClickListener listener){
@@ -91,26 +91,26 @@ implements View.OnClickListener{
     }
 
 
-    class ServiciosViewHolder extends RecyclerView.ViewHolder {
-        private TextView tNombre,tDireccion;
+    class SenderosViewHolder extends RecyclerView.ViewHolder {
+        private TextView tNombre,tUbicacion;
         private ImageView iFoto;
 
 
-        public ServiciosViewHolder(View itemView) {
+        public SenderosViewHolder(View itemView) {
             super(itemView);
 
             tNombre = itemView.findViewById(R.id.tNombre);
-            tDireccion = itemView.findViewById(R.id.tDireccion);
+            tUbicacion = itemView.findViewById(R.id.tDireccion);
             iFoto = itemView.findViewById(R.id.iFoto);
 
 
         }
 
-        public void bindServicios(Servicios servicios, Activity activity) {
+        public void bindSenderos(Senderos senderos, Activity activity) {
 
-            tNombre.setText(servicios.getNombre());
-            tDireccion.setText(servicios.getDireccion());
-            Picasso.get().load(servicios.getFoto()).into(iFoto);
+            tNombre.setText(senderos.getNombre());
+            tUbicacion.setText(senderos.getUbicacion());
+            Picasso.get().load(senderos.getFoto()).into(iFoto);
         }
 
     }

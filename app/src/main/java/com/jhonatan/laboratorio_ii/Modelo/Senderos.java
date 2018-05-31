@@ -1,32 +1,41 @@
 package com.jhonatan.laboratorio_ii.Modelo;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 /**
  * Created by Jhonatan on 22/05/2018.
  */
 
+
 public class Senderos implements Serializable {
-    private  String id, Nombre, Foto, Descripcion;
-    private ArrayList<LatLng> listPoints;
+    private String id, nombre, foto, descripcion, ubicacion;
+    private ArrayList<com.google.android.gms.maps.model.LatLng> listPoints;
 
-    public Senderos(String id, String nombre, String foto, String descripcion, ArrayList<LatLng> listPoints) {
-        this.id = id;
-        Nombre = nombre;
-        Foto = foto;
-        Descripcion = descripcion;
+
+    public Senderos(String nombre, String foto, String descripcion, String ubicacion, ArrayList<com.google.android.gms.maps.model.LatLng> listPoints) {
+        this.nombre = nombre;
+        this.foto = foto;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
         this.listPoints = listPoints;
     }
 
-    public Senderos(String nombre, String descripcion, ArrayList<LatLng> listPoints) {
-        Nombre = nombre;
-        Descripcion = descripcion;
-        this.listPoints = listPoints;
+    public Senderos(String nombre, String foto, String descripcion, String ubicacion) {
+        this.nombre = nombre;
+        this.foto = foto;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
     }
 
+    public Senderos(String nombre, String foto, String ubicacion) {
+        this.nombre = nombre;
+        this.foto = foto;
+        this.ubicacion = ubicacion;
+    }
+
+    public Senderos() {
+    }
     public String getId() {
         return id;
     }
@@ -36,34 +45,42 @@ public class Senderos implements Serializable {
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
     public String getFoto() {
-        return Foto;
+        return foto;
     }
 
     public void setFoto(String foto) {
-        Foto = foto;
+        this.foto = foto;
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+        this.descripcion = descripcion;
     }
 
-    public ArrayList<LatLng> getListPoints() {
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public ArrayList<com.google.android.gms.maps.model.LatLng> getListPoints() {
         return listPoints;
     }
 
-    public void setListPoints(ArrayList<LatLng> listPoints) {
+    public void setListPoints(ArrayList<com.google.android.gms.maps.model.LatLng> listPoints) {
         this.listPoints = listPoints;
     }
 }

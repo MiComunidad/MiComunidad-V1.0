@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         int id=item.getItemId();
         switch (id){
             case R.id.mMiPerfil:
-                Intent intent = new Intent(MainActivity.this, PerfilActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                startActivity(intent);
                 break;
             case R.id.mCerrarSe:
                 cerrarSesion();

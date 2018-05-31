@@ -16,6 +16,7 @@ public class Servicios implements Serializable{
     private String Horarios;
     private String lat;
     private String lng;
+    private String Favoritos;
 
     public Servicios(String id, String nombre, String direccion, String foto, String contacto, String descripcion, String horarios, String lat, String lng) {
         this.id = id;
@@ -29,7 +30,26 @@ public class Servicios implements Serializable{
         this.lng = lng;
     }
 
+    public Servicios(String id, String nombre, String direccion, String foto, String contacto, String descripcion, String horarios, String lat, String lng, String favoritos) {
+        this.id = id;
+        Nombre = nombre;
+        Direccion = direccion;
+        Foto = foto;
+        Contacto = contacto;
+        Descripcion = descripcion;
+        Horarios = horarios;
+        this.lat = lat;
+        this.lng = lng;
+        Favoritos = favoritos;
+    }
 
+    public String getFavoritos() {
+        return Favoritos;
+    }
+
+    public void setFavoritos(String favoritos) {
+        Favoritos = favoritos;
+    }
 
     public void setHorarios(String horarios) {
         Horarios = horarios;

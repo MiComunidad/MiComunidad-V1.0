@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    tools:context="com.jhonatan.laboratorio_ii.MainActivity">
-
+    android:background="@drawable/fondo"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.jhonatan.laboratorio_ii.PrincipalActivity"
+    tools:showIn="@layout/app_bar_principal">
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -18,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/turismo"
+            android:background="@drawable/hotel"
             android:gravity="center"
             android:onClick="ClickedText"
             android:text="Servicios"
@@ -58,8 +62,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:background="@drawable/hotel"
-            android:text="@string/recomendaciones"
+            android:background="@drawable/turismo"
+            android:text="@string/sender"
             android:textSize="25sp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -67,7 +71,5 @@
             android:onClick="ClickedText"/>
 
     </LinearLayout>
-
-
-
-</LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

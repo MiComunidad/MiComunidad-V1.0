@@ -58,17 +58,30 @@ public class FavoritosRFragment extends Fragment {
         adapterServicios = new AdapterServicios(serviciosList,R.layout.cardview_servicios,getActivity());
         recyclerView.setAdapter(adapterServicios);
 
+        loadData();
+
+        adapterServicios = new AdapterServicios(serviciosList,R.layout.cardview_servicios,getActivity());
+        recyclerView.setAdapter(adapterServicios);
+
+
+        return view;
+    }
+    @Override
+    public void onResume() {
+        //  Log.d("OnStop","si");
+        //  loadData();
+        idList.clear();
+        super.onResume();
+    }
+    private void loadData() {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
         final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-
-        adapterServicios = new AdapterServicios(serviciosList,R.layout.cardview_servicios,getActivity());
-        recyclerView.setAdapter(adapterServicios);
         databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                idList.clear();
                 if (dataSnapshot.exists()){
                     for(DataSnapshot snapshot:dataSnapshot.getChildren()){
 
@@ -112,7 +125,5 @@ public class FavoritosRFragment extends Fragment {
             }
         });
 
-        return view;
     }
-
 }

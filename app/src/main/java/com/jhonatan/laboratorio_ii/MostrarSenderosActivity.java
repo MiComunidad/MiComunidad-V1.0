@@ -1,29 +1,46 @@
 package com.jhonatan.laboratorio_ii;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jhonatan.laboratorio_ii.Adapters.AdapterSenderos;
 import com.jhonatan.laboratorio_ii.Modelo.Senderos;
 
 import java.util.ArrayList;
 
-public class SenderosActivity extends AppCompatActivity {
+public class MostrarSenderosActivity extends AppCompatActivity {
+
+    private ArrayList<Senderos> senderosList;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapterSenderos;
+    private RecyclerView.LayoutManager layoutManager;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private ArrayList<Senderos> senderosList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_senderos);
+        setContentView(R.layout.activity_mostrar_senderos);
+        
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
         senderosList = new ArrayList<>();
+
+        adapterSenderos = new AdapterSenderos(senderosList,R.layout.cardview_servicios,this);
+        recyclerView.setAdapter(adapterSenderos);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
@@ -36,6 +53,7 @@ public class SenderosActivity extends AppCompatActivity {
                         Senderos senderos= snapshot.getValue(Senderos.class);
                         senderosList.add(senderos);
                     }
+                    adapterSenderos.notifyDataSetChanged();
                 }
             }
 
@@ -46,18 +64,4 @@ public class SenderosActivity extends AppCompatActivity {
         });
     }
 
-    public void onButtonClicked(View view) {
-
-        int id = view.getId();
-        if(id==R.id.bRegistrar){
-            Intent intent = new Intent(SenderosActivity.this,RegistrarSenderoActivity.class);
-            intent.putExtra("senderos",senderosList);
-            startActivity(intent);
-            finish();
-        }else if(id == R.id.bSenderos){
-            Intent intent = new Intent(SenderosActivity.this,MostrarSenderosActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    }
 }

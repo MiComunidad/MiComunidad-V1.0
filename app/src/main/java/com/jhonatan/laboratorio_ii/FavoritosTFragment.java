@@ -58,21 +58,33 @@ public class FavoritosTFragment extends Fragment {
         adapterServicios = new AdapterServicios(serviciosList, R.layout.cardview_servicios, getActivity());
         recyclerView.setAdapter(adapterServicios);
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference();
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        loadData();
 
         adapterServicios = new AdapterServicios(serviciosList, R.layout.cardview_servicios, getActivity());
         recyclerView.setAdapter(adapterServicios);
+
+        return view;
+    }
+    @Override
+    public void onResume() {
+        //  Log.d("OnStop","si");
+        //  loadData();
+        idList.clear();
+        super.onResume();
+    }
+    private void loadData() {
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+        FirebaseAuth firebaseAuth= FirebaseAuth.getInstance();
+        final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                idList.clear();
+                if (dataSnapshot.exists()){
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
 
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                        id = snapshot.getValue().toString();
+                        id=snapshot.getValue().toString();
                         idList.add(id);
 
                         databaseReference.child("Servicios").child("Turismo").addValueEventListener(new ValueEventListener() {
@@ -84,7 +96,7 @@ public class FavoritosTFragment extends Fragment {
                                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                         Servicios servicios = snapshot.getValue(Servicios.class);
 
-                                        for (int i = 0; i < idList.size(); i++) {
+                                        for(int i= 0;i < idList.size(); i++) {
                                             if (servicios.getId().toString().equals(idList.get(i).toString())) {
 
                                                 serviciosList.add(servicios);
@@ -112,7 +124,5 @@ public class FavoritosTFragment extends Fragment {
             }
         });
 
-        return view;
     }
-
 }

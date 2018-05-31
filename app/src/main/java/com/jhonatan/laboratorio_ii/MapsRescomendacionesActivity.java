@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,11 +32,10 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
     private static final int LOCATION_REQUEST = 500;
     ArrayList<LatLng> listPoints;
     int puntos= 0;
-    private String Nombre, Descripcion;
+    private String Nombre, Descripcion,Ubicacion, urlFoto="";
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +44,8 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         AlertDialog.Builder builder = new AlertDialog.Builder(MapsRescomendacionesActivity.this);
         builder.setIcon(R.mipmap.ic_launcher)
-                .setTitle("¿Desea recomendar un sendero?")
-                .setMessage("para recomendar un sendero primero seleccione la ruta dejando presionado un lugar del mapa" +
-                        " , así se marca el punto de inicio y final").
+                .setTitle("Información")
+                .setMessage("Para trazar la ruta del sendero seleccione las paradas dejando presionado un lugar del mapa").
                 setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -58,8 +55,7 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
                 setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MapsRescomendacionesActivity.this,MainActivity.class);
-                        Toast.makeText(MapsRescomendacionesActivity.this,"Se canceló el registro del sendero",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MapsRescomendacionesActivity.this,SenderosActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -75,10 +71,15 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
             puntos =  Integer.parseInt( bundle.getString("puntos"));
             Nombre = bundle.getString("nombre");
             Descripcion = bundle.getString("descripcion");
+            Ubicacion = bundle.getString("ubicacion");
+            urlFoto = bundle.getString("foto");
+            Log.d("urlfoto" , urlFoto);
         }
 
         listPoints = new ArrayList <>();
-        Log.d("puntos", String.valueOf(puntos));
+
+
+
     }
 
 
@@ -141,15 +142,21 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
 
                                     Senderos senderos = new Senderos(
                                             Nombre,
+                                            urlFoto,
                                             Descripcion,
-                                            listPoints
+                                            Ubicacion
                                     );
 
                                     firebaseDatabase = FirebaseDatabase.getInstance();
                                     databaseReference = firebaseDatabase.getReference();
 
-                                    databaseReference.child("Senderos").child(senderos.getNombre()).setValue(senderos);
+                                    databaseReference.child("Senderos").child("Informacion").child(senderos.getNombre()).setValue(senderos);
+                                    databaseReference.child("Senderos").child("Puntos").child(senderos.getNombre()).setValue(listPoints);
 
+
+                                    Intent intent = new Intent(MapsRescomendacionesActivity.this,SenderosActivity.class);
+                                    startActivity(intent);
+                                    finish();
                                 }
                             }).
                             setNegativeButton("Cambiar", new DialogInterface.OnClickListener() {
@@ -165,5 +172,12 @@ public class MapsRescomendacionesActivity extends FragmentActivity implements On
         });
 
 
+    }
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MapsRescomendacionesActivity.this,SenderosActivity.class);
+        startActivity(intent);
+        finish();
+        super.onBackPressed();
     }
 }

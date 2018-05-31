@@ -5,33 +5,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/fondo"
     tools:context="com.jhonatan.laboratorio_ii.RegistrarSenderoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RegistarSendero"
+        android:textStyle="bold"
+        android:textColor="@color/darkviolet"
+        android:textSize="25sp"
+        android:gravity="center"/>
+    <ImageView
+        android:id="@+id/iFoto"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@android:drawable/ic_menu_camera"
+        android:onClick="fotoClicked"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/nombreS"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/eNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="nombre"/>
+        android:inputType="text"
+        android:textColor="@color/white"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/ubicacionS"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/eUbicacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:inputType="text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:text="@string/descripcionS"/>
     <EditText
         android:id="@+id/eDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="descripcion"/>
+        android:textColor="@color/white"
+        android:inputType="text"/>
+    <TextView
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/puntos"/>
     <EditText
         android:id="@+id/ePuntos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="cuantos puntos?"/>
-   <ImageView
-       android:id="@+id/iFoto"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" />
+        android:textColor="@color/white"
+        android:inputType="number"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="guardar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:text="@string/continuar"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/darkviolet"
         android:onClick="onButtonClicked"/>
 
 </LinearLayout>

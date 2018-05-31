@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +28,7 @@ public class DetallesActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private Button bFavoritos;
+    private String cont;
     int contador=0;
 
 
@@ -59,8 +59,10 @@ public class DetallesActivity extends AppCompatActivity {
             tNombre.setText(servicios.getNombre().toString() + "\n");
             tContacto.setText("Contacto: " + servicios.getContacto().toString() + "\n");
             Picasso.get().load(servicios.getFoto()).into(iServicio);
+            contador = Integer.parseInt(servicios.getFavoritos().toString());
 
         }
+
 
         if(contador == 0) {
             bFavoritos.setText("Añadir a favoritos");
@@ -102,7 +104,14 @@ public class DetallesActivity extends AppCompatActivity {
                         final Servicios finalServicios = servicios;
 
                                             databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).setValue(finalServicios.getId());
-                                            Toast.makeText(DetallesActivity.this, "Se agregó a favoritos", Toast.LENGTH_SHORT).show();
+                                            if(servicios.getId().equals("Hotel1") ||servicios.getId().equals("Hotel2") ||servicios.getId().equals("Hotel3") ||servicios.getId().equals("Hotel4")){
+                                                databaseReference.child("Servicios").child("Hoteles").child(servicios.getId()).child("Favoritos").setValue("1");
+                                            }else if(servicios.getId().equals("Restaurante1") ||servicios.getId().equals("Restaurante2") ||servicios.getId().equals("Restaurante3") ||servicios.getId().equals("Restaurante4")){
+                                                databaseReference.child("Servicios").child("Restaurantes").child(servicios.getId()).child("Favoritos").setValue("1");
+                                            }else if(servicios.getId().equals("Tur1") ||servicios.getId().equals("Tur2") ||servicios.getId().equals("Tur3")){
+                                                databaseReference.child("Servicios").child("Turismo").child(servicios.getId()).child("Favoritos").setValue("1");
+                                            }
+
                                             contador = contador +1;
 
                         bFavoritos.setText("Quitar de favoritos");
@@ -136,9 +145,16 @@ public class DetallesActivity extends AppCompatActivity {
 
                                         final Servicios finalServicios = servicios;
 
-                                                            databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).removeValue();
-                                                            Toast.makeText(DetallesActivity.this, "se quito", Toast.LENGTH_SHORT).show();
-                                                            contador = 0;
+                                        databaseReference.child("Usuarios").child(firebaseUser.getUid()).child("Favoritos").child(finalServicios.getId()).removeValue();
+                                                if(servicios.getId().equals("Hotel1") ||servicios.getId().equals("Hotel2") ||servicios.getId().equals("Hotel3") ||servicios.getId().equals("Hotel4")){
+                                                    databaseReference.child("Servicios").child("Hoteles").child(servicios.getId()).child("Favoritos").setValue("0");
+                                                }else if(servicios.getId().equals("Restaurante1") ||servicios.getId().equals("Restaurante2") ||servicios.getId().equals("Restaurante3") ||servicios.getId().equals("Restaurante4")){
+                                                    databaseReference.child("Servicios").child("Restaurantes").child(servicios.getId()).child("Favoritos").setValue("0");
+                                                }else if(servicios.getId().equals("Tur1") ||servicios.getId().equals("Tur2") ||servicios.getId().equals("Tur3")){
+                                                    databaseReference.child("Servicios").child("Turismo").child(servicios.getId()).child("Favoritos").setValue("0");
+                                                }
+
+                                         contador = 0;
                                     }
                                     bFavoritos.setText("Añadir a favoritos");
                                     Drawable image = getApplicationContext().getResources().getDrawable(R.drawable.btn_star_big_off);
@@ -173,6 +189,7 @@ public class DetallesActivity extends AppCompatActivity {
                     favoritos.putSerializable("favoritos",servicios1);
                     i1.putExtras(favoritos);
                     startActivity(i1);
+                    finish();
                 }
         }
 
